@@ -26,7 +26,6 @@ public class Conecta4GUI extends JFrame {
     public Conecta4GUI() {
         prepareElements();
         prepareActions();
-
     }
 
     /**
@@ -34,18 +33,17 @@ public class Conecta4GUI extends JFrame {
      */
     
     
-     private void prepareElements() {
+    private void prepareElements() {
         setTitle("Conecta4");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize.width / 2, screenSize.height / 2);
         Dimension frameSize = this.getSize();
         this.setLocation((screenSize.width - frameSize.width) / 2,
-                (screenSize.height - frameSize.height) / 2);
+        (screenSize.height - frameSize.height) / 2);
         prepareElementsMenu();
         selectorArchivos = new JFileChooser();
         colorPalete = new JColorChooser();
         prepareElementsBoard();
-        
     }
 
     /**
@@ -55,7 +53,7 @@ public class Conecta4GUI extends JFrame {
         // Se instancia el JMenuBar y se le asigna al Frame
         menuBar = new JMenuBar();
         setJMenuBar(menuBar);
-        // Declaramos e instanciamos el objeto de la clase JMenu y le añadimos sus items
+        // Declaramos e instanciamos el objeto de la clase JMenu y le aniadimos sus items
         JMenu menu = new JMenu("Menu");
         nuevo = new JMenuItem("Nuevo");
         abrir = new JMenuItem("Abrir");
@@ -74,9 +72,9 @@ public class Conecta4GUI extends JFrame {
     private void prepareElementsBoard(){
         board = new JPanel();
         board.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
-        board.setLayout(new GridLayout(6, 7, 15, 15));
+        board.setLayout(new GridLayout(6, 7));
         for(int i = 0; i < 6*7; i++){
-            board.add(new BoardElement());
+            board.add(new CircleLabel(50));
         }
         board.setBackground(new Color(70,165,162));
         board.setOpaque(true);
@@ -117,8 +115,6 @@ public class Conecta4GUI extends JFrame {
         getContentPane().add(turno, BorderLayout.NORTH);
         getContentPane().add(columnsButtons, BorderLayout.SOUTH);
         getContentPane().add(options,BorderLayout.EAST);
-        
-        
     }
 
     private void refresh(){
@@ -131,7 +127,7 @@ public class Conecta4GUI extends JFrame {
     private void prepareActions() {
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                int siNo = JOptionPane.showConfirmDialog(Conecta4GUI.this, "¿Esta seguro de terminar el juego?");
+                int siNo = JOptionPane.showConfirmDialog(Conecta4GUI.this, "Esta seguro de terminar el juego?");
                 if (siNo == 0)
                     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 else
@@ -141,11 +137,15 @@ public class Conecta4GUI extends JFrame {
         prepareActionsMenu();
         prepareActionsBoard();
     }
+
     private void prepareActionsMenu() {
         salir.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int siNo = JOptionPane.showConfirmDialog(Conecta4GUI.this, "¿Esta seguro de terminar el juego?");
-                if (siNo == 0) System.exit(0);
+                if (siNo == 0)
+                    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                else
+                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             }
         });
         abrir.addActionListener(new ActionListener() {
@@ -178,7 +178,8 @@ public class Conecta4GUI extends JFrame {
         }
         changeBoardButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                colorPalete.showDialog(Conecta4GUI.this, "Paleta de colores", Color.black);
+                Color colorChoose = colorPalete.showDialog(Conecta4GUI.this, "Paleta de colores", Color.black);
+                board.setBackground(colorChoose);
             } 
         });
     }

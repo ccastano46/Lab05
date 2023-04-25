@@ -18,8 +18,8 @@ public class BoardElement extends JLabel {
     /** Constructor */
      public BoardElement()
      {
-        Dimension d = new Dimension(10,10);
-        setSize(d);
+        Dimension d = new Dimension(5,5);
+        setPreferredSize(d);
         setOpaque(true);
         setBorder(circleBorder); 
      }

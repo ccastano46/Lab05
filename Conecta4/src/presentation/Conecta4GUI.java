@@ -1,10 +1,12 @@
 package presentation;
 
 import java.awt.*;
+import java.awt.Insets;
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.border.Border;
 import javax.swing.event.*;
 import java.awt.event.*;
 
@@ -14,7 +16,7 @@ public class Conecta4GUI extends JFrame {
     private JMenuItem nuevo, abrir, salvar, salir;
     private JPanel board;
     private JLabel turno;
-    private JButton row1,row2,row3,row4,row5,row6;
+    private JRadioButton column1,column2,column3,column4,column5,column6, column7;
 
     /**
      * Constructor de la interfaz grafica del juego Conecta4
@@ -76,26 +78,32 @@ public class Conecta4GUI extends JFrame {
         board.setBackground(new Color(70,165,162));
         board.setOpaque(true);
         turno = new JLabel("Es el turno del Jugador1", JLabel.CENTER);
-        JPanel botones = new JPanel(new GridLayout(6,1,5,5));
-        botones.setBorder(new CompoundBorder(new EmptyBorder(3,3,3,3), new TitledBorder("Filas")));
-        row1 = new JButton("Fila1");
-        botones.add(row1);
-        row2 = new JButton("Fila2");
-        botones.add(row2);
-        row3 = new JButton("Fila3");
-        botones.add(row3);
-        row4 = new JButton("Fila4");
-        botones.add(row4);
-        row5 = new JButton("Fila5");
-        botones.add(row5);
-        row6 = new JButton("Fila6");
-        botones.add(row6);
+        turno.setPreferredSize(new Dimension(WIDTH, 50));
+        JPanel columnsButtons = new JPanel(new GridLayout(1,6,5,5));
+        columnsButtons.setBorder(new CompoundBorder(new EmptyBorder(3,3,3,3), new TitledBorder("Columnas")));
+        column1 = new JRadioButton("C1");
+        columnsButtons.add(column1);
+        column2 = new JRadioButton("C2");
+        columnsButtons.add(column2);
+        column3 = new JRadioButton("C3");
+        columnsButtons.add(column3);
+        column4 = new JRadioButton("C4");
+        columnsButtons.add(column4);
+        column5 = new JRadioButton("C5");
+        columnsButtons.add(column5);
+        column6 = new JRadioButton("C6");
+        columnsButtons.add(column6);
+        column7 = new JRadioButton("C7");
+        columnsButtons.add(column7);
+
+        columnsButtons.setPreferredSize(new Dimension(columnsButtons.getSize().width, 50));
         setContentPane(new JPanel());
         getContentPane().setLayout(new BorderLayout(10,10));
-        ((JPanel)getContentPane()).setBorder(BorderFactory.createEmptyBorder(5,5,15,15));
+        ((JPanel)getContentPane()).setBorder(BorderFactory.createEmptyBorder(5,65,5,65));
         getContentPane().add(board, BorderLayout.CENTER);
         getContentPane().add(turno, BorderLayout.NORTH);
-        getContentPane().add(botones, BorderLayout.WEST);
+        getContentPane().add(columnsButtons, BorderLayout.SOUTH);
+        
     }
 
     private void refresh(){
@@ -116,6 +124,7 @@ public class Conecta4GUI extends JFrame {
             }
         });
         prepareActionsMenu();
+        prepareActionsBoard();
     }
     private void prepareActionsMenu() {
         salir.addActionListener(new ActionListener() {
@@ -136,6 +145,75 @@ public class Conecta4GUI extends JFrame {
         });
     }
 
+    private void prepareActionsBoard(){
+        JRadioButton[] filas = {column1, column2,column3, column4,column5, column6, column7};
+        
+        column1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for(JRadioButton b: filas){
+                    if(!(e.getSource() == b)){
+                        b.setSelected(false);
+                    } 
+                }
+            }       
+        });
+        column2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for(JRadioButton b: filas){
+                    if(!(e.getSource() == b)){
+                        b.setSelected(false);
+                    } 
+                }
+            }       
+        });
+        column3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for(JRadioButton b: filas){
+                    if(!(e.getSource() == b)){
+                        b.setSelected(false);
+                    } 
+                }
+            }       
+        });
+        column4.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for(JRadioButton b: filas){
+                    if(!(e.getSource() == b)){
+                        b.setSelected(false);
+                    } 
+                }
+            }       
+        });
+        column5.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for(JRadioButton b: filas){
+                    if(!(e.getSource() == b)){
+                        b.setSelected(false);
+                    } 
+                }
+            }       
+        });
+        column6.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for(JRadioButton b: filas){
+                    if(!(e.getSource() == b)){
+                        b.setSelected(false);
+                    } 
+                }
+            }       
+        });
+        column7.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for(JRadioButton b: filas){
+                    if(!(e.getSource() == b)){
+                        b.setSelected(false);
+                    } 
+                }
+            }       
+        });
+    }
+        
+    
     /**
      * Metodo principal del GUI
      */

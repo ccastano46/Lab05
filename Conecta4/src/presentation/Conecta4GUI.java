@@ -17,6 +17,8 @@ public class Conecta4GUI extends JFrame {
     private JPanel board;
     private JLabel turno;
     private JRadioButton column1,column2,column3,column4,column5,column6, column7;
+    private JButton shootButton, changeBoardButton;
+    private JColorChooser colorPalete;
 
     /**
      * Constructor de la interfaz grafica del juego Conecta4
@@ -41,6 +43,7 @@ public class Conecta4GUI extends JFrame {
                 (screenSize.height - frameSize.height) / 2);
         prepareElementsMenu();
         selectorArchivos = new JFileChooser();
+        colorPalete = new JColorChooser();
         prepareElementsBoard();
         
     }
@@ -95,14 +98,26 @@ public class Conecta4GUI extends JFrame {
         columnsButtons.add(column6);
         column7 = new JRadioButton("C7");
         columnsButtons.add(column7);
-
-        columnsButtons.setPreferredSize(new Dimension(columnsButtons.getSize().width, 50));
+        columnsButtons.setPreferredSize(new Dimension(120, 50));
+        JPanel options = new JPanel(new GridLayout(3,1,5,5));
+        options.setBorder(new CompoundBorder(new EmptyBorder(3,3,3,3), new TitledBorder("Opciones")));
+        options.setPreferredSize(new Dimension(100,0));
+        shootButton = new JButton("Shoot");
+        options.add(shootButton);
+        changeBoardButton = new JButton();
+        changeBoardButton.setLayout(new GridLayout(3,1,0,0));
+        changeBoardButton.add(new JLabel("Cambiar", JLabel.CENTER));
+        changeBoardButton.add(new JLabel("Color", JLabel.CENTER));
+        changeBoardButton.add(new JLabel("Tablero", JLabel.CENTER));
+        options.add(changeBoardButton);
         setContentPane(new JPanel());
         getContentPane().setLayout(new BorderLayout(10,10));
-        ((JPanel)getContentPane()).setBorder(BorderFactory.createEmptyBorder(5,65,5,65));
+        ((JPanel)getContentPane()).setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
         getContentPane().add(board, BorderLayout.CENTER);
         getContentPane().add(turno, BorderLayout.NORTH);
         getContentPane().add(columnsButtons, BorderLayout.SOUTH);
+        getContentPane().add(options,BorderLayout.EAST);
+        
         
     }
 
@@ -148,7 +163,7 @@ public class Conecta4GUI extends JFrame {
     private void prepareActionsBoard(){
         JRadioButton[] filas = {column1, column2,column3, column4,column5, column6, column7};
         
-        column1.addActionListener(new ActionListener() {
+        ActionListener justOne = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 for(JRadioButton b: filas){
                     if(!(e.getSource() == b)){
@@ -156,60 +171,15 @@ public class Conecta4GUI extends JFrame {
                     } 
                 }
             }       
-        });
-        column2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                for(JRadioButton b: filas){
-                    if(!(e.getSource() == b)){
-                        b.setSelected(false);
-                    } 
-                }
-            }       
-        });
-        column3.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                for(JRadioButton b: filas){
-                    if(!(e.getSource() == b)){
-                        b.setSelected(false);
-                    } 
-                }
-            }       
-        });
-        column4.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                for(JRadioButton b: filas){
-                    if(!(e.getSource() == b)){
-                        b.setSelected(false);
-                    } 
-                }
-            }       
-        });
-        column5.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                for(JRadioButton b: filas){
-                    if(!(e.getSource() == b)){
-                        b.setSelected(false);
-                    } 
-                }
-            }       
-        });
-        column6.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                for(JRadioButton b: filas){
-                    if(!(e.getSource() == b)){
-                        b.setSelected(false);
-                    } 
-                }
-            }       
-        });
-        column7.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                for(JRadioButton b: filas){
-                    if(!(e.getSource() == b)){
-                        b.setSelected(false);
-                    } 
-                }
-            }       
+        };
+
+        for(JRadioButton b: filas){
+            b.addActionListener(justOne);
+        }
+        changeBoardButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                colorPalete.showDialog(Conecta4GUI.this, "Paleta de colores", Color.black);
+            } 
         });
     }
         

@@ -16,8 +16,7 @@ public class Conecta4GUI extends JFrame {
     private JMenuItem nuevo, abrir, salvar, salir;
     private JPanel board;
     private JLabel turno;
-    private JRadioButton[] columnas;
-    private JRadioButton column1, column2, column3, column4, column5, column6, column7;
+    private JRadioButton[] columns;
     private JButton shootButton, changeBoardButton;
     private JColorChooser colorPalete;
 
@@ -72,36 +71,37 @@ public class Conecta4GUI extends JFrame {
      * del juego
      */
     private void prepareElementsBoard() {
-        int numFilas = Integer
+        int numRows = Integer
                 .parseInt(JOptionPane.showInputDialog("Ingerese numero de filas que debe tener el tablero"));
-        int numColumnas = Integer
+        int numColumns = Integer
                 .parseInt(JOptionPane.showInputDialog("Ingerese numero de columnas que debe tener el tablero"));
         board = new JPanel();
         board.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        board.setLayout(new GridLayout(numFilas, numColumnas, 5, 5));
-        for (int i = 0; i < numFilas * numColumnas; i++) {
+        board.setLayout(new GridLayout(numRows, numColumns, 5, 5));
+        for (int i = 0; i < numRows * numColumns; i++) {
             board.add(new CircleLabel(10));
         }
         board.setBackground(new Color(70, 165, 162));
         board.setOpaque(true);
         board.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        turno = new JLabel("Es el turno del Jugador1", JLabel.CENTER);
+        JLabel turno = new JLabel("Es el turno del Jugador1", JLabel.CENTER);
         turno.setPreferredSize(new Dimension(WIDTH, 50));
         setContentPane(new JPanel());
         getContentPane().setLayout(new BorderLayout(5, 5));
         ((JPanel) getContentPane()).setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         getContentPane().add(board, BorderLayout.CENTER);
         getContentPane().add(turno, BorderLayout.NORTH);
-        prepareBoardButtons();
+        prepareBoardButtons(numColumns);
+       
     }
 
-    private void prepareBoardButtons() {
+    private void prepareBoardButtons(int numColumns) {
         JPanel columnsButtons = new JPanel(new GridLayout(1, 7, 5, 5));
         columnsButtons.setBorder(new CompoundBorder(new EmptyBorder(3, 3, 3, 3), new TitledBorder("Columnas")));
-        columnas = new JRadioButton[7];
-        for (int i = 0; i < columnas.length; i++) {
-            columnas[i] = new JRadioButton("C" + (i + 1));
-            columnsButtons.add(columnas[i]);
+        columns = new JRadioButton[numColumns];
+        for (int i = 0; i < columns.length; i++) {
+            columns[i] = new JRadioButton("C" + (i + 1));
+            columnsButtons.add(columns[i]);
         }
         columnsButtons.setPreferredSize(new Dimension(WIDTH, 50));
         JPanel options = new JPanel(new GridLayout(3, 1, 5, 5));
@@ -115,7 +115,6 @@ public class Conecta4GUI extends JFrame {
         changeBoardButton.add(new JLabel("Color", JLabel.CENTER));
         changeBoardButton.add(new JLabel("Tablero", JLabel.CENTER));
         options.add(changeBoardButton);
-
         getContentPane().add(columnsButtons, BorderLayout.SOUTH);
         getContentPane().add(options, BorderLayout.EAST);
     }
@@ -167,15 +166,14 @@ public class Conecta4GUI extends JFrame {
 
         ActionListener justOne = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                for (JRadioButton b : columnas) {
+                for (JRadioButton b : columns) {
                     if (!(e.getSource() == b)) {
                         b.setSelected(false);
                     }
                 }
             }
         };
-
-        for (JRadioButton b : columnas) {
+        for (JRadioButton b : columns) {
             b.addActionListener(justOne);
         }
         changeBoardButton.addActionListener(new ActionListener() {

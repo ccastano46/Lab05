@@ -72,11 +72,15 @@ public class Conecta4GUI extends JFrame {
      * del juego
      */
     private void prepareElementsBoard() {
+        int numFilas = Integer
+                .parseInt(JOptionPane.showInputDialog("Ingerese numero de filas que debe tener el tablero"));
+        int numColumnas = Integer
+                .parseInt(JOptionPane.showInputDialog("Ingerese numero de columnas que debe tener el tablero"));
         board = new JPanel();
-        board.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        board.setLayout(new GridLayout(6, 7, 5, 5));
-        for (int i = 0; i < 6 * 7; i++) {
-            board.add(new CircleLabel(30));
+        board.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        board.setLayout(new GridLayout(numFilas, numColumnas, 0, 5));
+        for (int i = 0; i < numFilas * numColumnas; i++) {
+            board.add(new CircleLabel(10));
         }
         board.setBackground(new Color(70, 165, 162));
         board.setOpaque(true);
@@ -92,7 +96,7 @@ public class Conecta4GUI extends JFrame {
     }
 
     private void prepareBoardButtons() {
-        JPanel columnsButtons = new JPanel(new GridLayout(1, 6, 5, 5));
+        JPanel columnsButtons = new JPanel(new GridLayout(1, 7, 5, 5));
         columnsButtons.setBorder(new CompoundBorder(new EmptyBorder(3, 3, 3, 3), new TitledBorder("Columnas")));
         columnas = new JRadioButton[7];
         for (int i = 0; i < columnas.length; i++) {

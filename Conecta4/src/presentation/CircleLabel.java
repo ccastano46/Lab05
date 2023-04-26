@@ -16,10 +16,10 @@ public class CircleLabel extends JLabel {
 
     private int size;
 
-    public CircleLabel(int size) {
+    public CircleLabel(int size, Color color) {
         this.size = size;
         setSize(new Dimension(size+500, size+500));
-        setForeground(Color.WHITE);
+        setForeground(color);
     }
 
     @Override

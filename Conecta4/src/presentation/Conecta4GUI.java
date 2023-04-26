@@ -1,5 +1,6 @@
 package presentation;
 
+import domain.*;
 import java.awt.*;
 import java.awt.Insets;
 import javax.swing.*;
@@ -22,10 +23,13 @@ public class Conecta4GUI extends JFrame {
     private final Color player1 = Color.red;
     private final Color player2 = Color.yellow;
 
+    private Conecta4 game;
+
     /**
      * Constructor de la interfaz grafica del juego Conecta4
      */
     public Conecta4GUI() {
+        setGame();
         prepareElements();
         prepareExtraButtons();
         prepareActions();
@@ -74,28 +78,25 @@ public class Conecta4GUI extends JFrame {
      * del juego
      */
     private void prepareElementsBoard() {
-        int numRows = Integer
-                .parseInt(JOptionPane.showInputDialog("Ingerese numero de filas que debe tener el tablero"));
-        int numColumns = Integer
-                .parseInt(JOptionPane.showInputDialog("Ingerese numero de columnas que debe tener el tablero"));
         board = new JPanel();
         board.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        board.setLayout(new GridLayout(numRows, numColumns, 5, 5));
-        for (int i = 0; i < numRows * numColumns; i++) {
-            board.add(new CircleLabel(10));
+        board.setLayout(new GridLayout(game.board().length, game.board()[0].length, 5, 5));
+        for (int i = 0; i < game.board().length * game.board()[0].length; i++) {
+            board.add(new CircleLabel(30,Color.WHITE));
         }
+        board.setBackground(new Color(70,165,162));
         board.setBackground(new Color(70, 165, 162));
         board.setOpaque(true);
         board.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        JLabel turno = new JLabel("Es el turno del Jugador1", JLabel.CENTER);
+        turno = new JLabel("Es el turno del Jugador 1", JLabel.CENTER);
         turno.setPreferredSize(new Dimension(WIDTH, 50));
         setContentPane(new JPanel());
         getContentPane().setLayout(new BorderLayout(5, 5));
         ((JPanel) getContentPane()).setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         getContentPane().add(board, BorderLayout.CENTER);
         getContentPane().add(turno, BorderLayout.NORTH);
-        prepareBoardButtons(numColumns);
-
+        prepareBoardButtons(game.board()[0].length);
+       
     }
 
     private void prepareBoardButtons(int numColumns) {
@@ -127,7 +128,40 @@ public class Conecta4GUI extends JFrame {
     }
 
     private void refresh() {
+        if(game.player()){
+            turno.setText("Es el turno del Jugador 1");
+        }else{
+            turno.setText("Es el turno del Jugador 2");
+        }
+        Component component[] = board.getComponents();
+        for(Component c: component){
+            c.setVisible(false);
+        }
+        board.removeAll();
+        for (int i = 0; i < game.board().length; i++) { 
+            for (int j = 0; j < game.board()[0].length; j++) { 
+                if(game.board()[i][j] == 'a'){
+                    board.add(new CircleLabel(30,Color.BLUE));
+                }else if(game.board()[i][j] == 'r'){
+                    board.add(new CircleLabel(30,Color.RED));
+                }else{
+                    board.add(new CircleLabel(30,Color.WHITE));
+                }
+            }
+        }
+    }
 
+    private void setGame(){
+        int numRows = Integer
+                .parseInt(JOptionPane.showInputDialog("Ingerese numero de filas que debe tener el tablero"));
+        int numColumns = Integer
+                .parseInt(JOptionPane.showInputDialog("Ingerese numero de columnas que debe tener el tablero"));
+        try {
+            game = new Conecta4(numRows, numColumns);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            setGame();
+        }
     }
 
     /**
@@ -170,7 +204,6 @@ public class Conecta4GUI extends JFrame {
     }
 
     private void prepareActionsBoard() {
-
         ActionListener justOne = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 for (JRadioButton b : columns) {
@@ -189,6 +222,28 @@ public class Conecta4GUI extends JFrame {
                 board.setBackground(colorChoose);
             }
         });
+        shootButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                int selectColumn=0;
+                for(JRadioButton b : columns){
+                    if(b.isSelected()) break;
+                    selectColumn++;
+                }
+                //System.out.println(selectColumn);
+                try {
+                    if(game.play(selectColumn)){
+                        if(game.player()){
+                            JOptionPane.showMessageDialog(Conecta4GUI.this, "Jugador 2 eres el ganador");
+                        }else{
+                            JOptionPane.showMessageDialog(Conecta4GUI.this, "Jugador 1 eres el ganador");
+                        }
+                    } 
+                } catch (Exception error) {
+                    JOptionPane.showMessageDialog(Conecta4GUI.this, error.getMessage());
+                }
+                refresh();
+            }
+        });
     }
 
     /**
@@ -197,6 +252,5 @@ public class Conecta4GUI extends JFrame {
     public static void main(String[] args) {
         Conecta4GUI conecta = new Conecta4GUI();
         conecta.setVisible(true);
-
     }
 }

@@ -78,7 +78,7 @@ public class Conecta4GUI extends JFrame {
                 .parseInt(JOptionPane.showInputDialog("Ingerese numero de columnas que debe tener el tablero"));
         board = new JPanel();
         board.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        board.setLayout(new GridLayout(numFilas, numColumnas, 0, 5));
+        board.setLayout(new GridLayout(numFilas, numColumnas, 5, 5));
         for (int i = 0; i < numFilas * numColumnas; i++) {
             board.add(new CircleLabel(10));
         }

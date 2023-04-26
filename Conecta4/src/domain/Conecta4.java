@@ -20,7 +20,7 @@ public class Conecta4 {
     }
 
     public boolean play(int column) throws Conecta4Exception{
-        if(column==board.length-1) throw new Conecta4Exception(Conecta4Exception.NO_COLUMN);
+        if(column==board[0].length) throw new Conecta4Exception(Conecta4Exception.NO_COLUMN);
         char ficha;
         if (player) {
             ficha = 'a';

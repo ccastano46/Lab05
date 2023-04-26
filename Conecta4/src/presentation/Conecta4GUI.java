@@ -17,17 +17,18 @@ public class Conecta4GUI extends JFrame {
     private JPanel board;
     private JLabel turno;
     private JRadioButton[] columns;
-    private JButton shootButton, changeBoardButton;
+    private JButton[] visualButtons;
+    private JButton shootButton;
     private JColorChooser colorPalete;
-    private final Color player1 = Color.red;
-    private final Color player2 = Color.yellow;
+    private Color player1, player2;
 
     /**
      * Constructor de la interfaz grafica del juego Conecta4
      */
     public Conecta4GUI() {
+        player1 = Color.red;
+        player2 = Color.yellow;
         prepareElements();
-        prepareExtraButtons();
         prepareActions();
     }
 
@@ -46,6 +47,7 @@ public class Conecta4GUI extends JFrame {
         selectorArchivos = new JFileChooser();
         colorPalete = new JColorChooser();
         prepareElementsBoard();
+        prepareExtraButtons();
     }
 
     /**
@@ -111,18 +113,22 @@ public class Conecta4GUI extends JFrame {
     }
 
     private void prepareExtraButtons() {
-        changeBoardButton = new JButton();
-        JPanel options = new JPanel(new GridLayout(3, 1, 5, 5));
+        visualButtons = new JButton[3];
+        JPanel options = new JPanel(new GridLayout(4, 1, 5, 5));
         options.setBorder(new CompoundBorder(new EmptyBorder(3, 3, 3, 3), new TitledBorder("Opciones")));
         options.setPreferredSize(new Dimension(100, HEIGHT));
         shootButton = new JButton("Shoot");
         options.add(shootButton);
-        changeBoardButton = new JButton();
-        changeBoardButton.setLayout(new GridLayout(3, 1, 0, 0));
-        changeBoardButton.add(new JLabel("Cambiar", JLabel.CENTER));
-        changeBoardButton.add(new JLabel("Color", JLabel.CENTER));
-        changeBoardButton.add(new JLabel("Tablero", JLabel.CENTER));
-        options.add(changeBoardButton);
+        for (int i = 0; i < 3; i++) {
+            visualButtons[i] = new JButton();
+            visualButtons[i].setLayout(new GridLayout(2, 1, 0, 0));
+            visualButtons[i].add(new JLabel("Cambiar", JLabel.CENTER));
+            options.add(visualButtons[i]);
+        }
+        visualButtons[0].add(new JLabel("Tablero", JLabel.CENTER));
+        visualButtons[1].add(new JLabel("P1", JLabel.CENTER));
+        visualButtons[2].add(new JLabel("P2", JLabel.CENTER));
+
         getContentPane().add(options, BorderLayout.EAST);
     }
 
@@ -183,12 +189,49 @@ public class Conecta4GUI extends JFrame {
         for (JRadioButton b : columns) {
             b.addActionListener(justOne);
         }
-        changeBoardButton.addActionListener(new ActionListener() {
+        visualButtons[0].addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Color colorChoose = colorPalete.showDialog(Conecta4GUI.this, "Paleta de colores", Color.black);
-                board.setBackground(colorChoose);
+                if (!(colorChoose.equals(player1)) && !(colorChoose.equals(player2)))
+                    board.setBackground(colorChoose);
+                else
+                    JOptionPane.showMessageDialog(Conecta4GUI.this,
+                            "El color no se pudo cambiar porque un elemento ya lo tiene");
             }
         });
+
+        visualButtons[1].addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Color colorChoose = colorPalete.showDialog(Conecta4GUI.this, "Paleta de colores", Color.black);
+                if (!(colorChoose.equals(board.getBackground())) && !(colorChoose.equals(player2)))
+                    setPlayer1Color(colorChoose);
+                else
+                    JOptionPane.showMessageDialog(Conecta4GUI.this,
+                            "El color no se pudo cambiar porque un elemento ya lo tiene");
+            }
+        });
+
+        visualButtons[2].addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                Color colorChoose = colorPalete.showDialog(Conecta4GUI.this, "Paleta de colores", Color.black);
+                if (!(colorChoose.equals(board.getBackground())) && !(colorChoose.equals(player1)))
+
+                    setPlayer2Color(colorChoose);
+                else
+                    JOptionPane.showMessageDialog(Conecta4GUI.this,
+                            "El color no se pudo cambiar porque un elemento ya lo tiene");
+            }
+        });
+
+    }
+
+    private void setPlayer1Color(Color newColor) {
+        player1 = newColor;
+    }
+
+    private void setPlayer2Color(Color newColor) {
+        player2 = newColor;
     }
 
     /**

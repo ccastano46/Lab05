@@ -72,12 +72,15 @@ public class Conecta4GUI extends JFrame {
     private void prepareElementsBoard(){
         board = new JPanel();
         board.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
-        board.setLayout(new GridLayout(6, 7));
+        board.setLayout(new GridLayout(6, 7,5,5));
         for(int i = 0; i < 6*7; i++){
-            board.add(new CircleLabel(50));
+            board.add(new CircleLabel(30));
         }
+        
+        
         board.setBackground(new Color(70,165,162));
         board.setOpaque(true);
+        board.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
         turno = new JLabel("Es el turno del Jugador1", JLabel.CENTER);
         turno.setPreferredSize(new Dimension(WIDTH, 50));
         JPanel columnsButtons = new JPanel(new GridLayout(1,6,5,5));

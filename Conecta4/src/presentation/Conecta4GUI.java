@@ -19,12 +19,15 @@ public class Conecta4GUI extends JFrame {
     private JRadioButton[] columns;
     private JButton shootButton, changeBoardButton;
     private JColorChooser colorPalete;
+    private final Color player1 = Color.red;
+    private final Color player2 = Color.yellow;
 
     /**
      * Constructor de la interfaz grafica del juego Conecta4
      */
     public Conecta4GUI() {
         prepareElements();
+        prepareExtraButtons();
         prepareActions();
     }
 
@@ -92,7 +95,7 @@ public class Conecta4GUI extends JFrame {
         getContentPane().add(board, BorderLayout.CENTER);
         getContentPane().add(turno, BorderLayout.NORTH);
         prepareBoardButtons(numColumns);
-       
+
     }
 
     private void prepareBoardButtons(int numColumns) {
@@ -104,6 +107,11 @@ public class Conecta4GUI extends JFrame {
             columnsButtons.add(columns[i]);
         }
         columnsButtons.setPreferredSize(new Dimension(WIDTH, 50));
+        getContentPane().add(columnsButtons, BorderLayout.SOUTH);
+    }
+
+    private void prepareExtraButtons() {
+        changeBoardButton = new JButton();
         JPanel options = new JPanel(new GridLayout(3, 1, 5, 5));
         options.setBorder(new CompoundBorder(new EmptyBorder(3, 3, 3, 3), new TitledBorder("Opciones")));
         options.setPreferredSize(new Dimension(100, HEIGHT));
@@ -115,7 +123,6 @@ public class Conecta4GUI extends JFrame {
         changeBoardButton.add(new JLabel("Color", JLabel.CENTER));
         changeBoardButton.add(new JLabel("Tablero", JLabel.CENTER));
         options.add(changeBoardButton);
-        getContentPane().add(columnsButtons, BorderLayout.SOUTH);
         getContentPane().add(options, BorderLayout.EAST);
     }
 

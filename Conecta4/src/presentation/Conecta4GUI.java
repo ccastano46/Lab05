@@ -1,13 +1,10 @@
 package presentation;
-
 import domain.*;
 import java.awt.*;
-import java.awt.Insets;
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.border.Border;
 import javax.swing.event.*;
 import java.awt.event.*;
 
@@ -22,7 +19,6 @@ public class Conecta4GUI extends JFrame {
     private JButton shootButton;
     private JColorChooser colorPalete;
     private Color player1, player2;
-
     private Conecta4 game;
 
     /**
@@ -100,7 +96,11 @@ public class Conecta4GUI extends JFrame {
         prepareBoardButtons(game.board()[0].length);
        
     }
-
+    /**
+     * Metodo que organiza los componentes que sirven como puente para que el Usuario pueda seleccionar la columna donde quiere
+     * Colocar la ficha
+     * @param numColumns, numero de columnas del tablero.
+     */
     private void prepareBoardButtons(int numColumns) {
         JPanel columnsButtons = new JPanel(new GridLayout(1, 7, 5, 5));
         columnsButtons.setBorder(new CompoundBorder(new EmptyBorder(3, 3, 3, 3), new TitledBorder("Columnas")));
@@ -112,6 +112,9 @@ public class Conecta4GUI extends JFrame {
         columnsButtons.setPreferredSize(new Dimension(WIDTH, 50));
         getContentPane().add(columnsButtons, BorderLayout.SOUTH);
     }
+    /**
+     * Metodo que organiza los componentes con los que el usuario puede poner la ficha y cambiar los colores de los elementos del juego
+     */
 
     private void prepareExtraButtons() {
         visualButtons = new JButton[3];
@@ -132,7 +135,9 @@ public class Conecta4GUI extends JFrame {
 
         getContentPane().add(options, BorderLayout.EAST);
     }
-
+    /**
+     * Metodo que actualiza la vista del tablero.
+     */
     private void refresh() {
         if(game.player()){
             turno.setText("Es el turno del Jugador 1");
@@ -156,7 +161,9 @@ public class Conecta4GUI extends JFrame {
             }
         }
     }
-
+    /**
+     * Metodo que prepara el numero de filas y columnas que va a tener el tablero.
+    */
     private void setGame(){
         int numRows = Integer
                 .parseInt(JOptionPane.showInputDialog("Ingerese numero de filas que debe tener el tablero"));
@@ -186,7 +193,9 @@ public class Conecta4GUI extends JFrame {
         prepareActionsMenu();
         prepareActionsBoard();
     }
-
+    /**
+     * Metodo que  implementa los metodos necesarios que toman lugar cuando sucede un evento por parte de los componentes del menu.
+     */
     private void prepareActionsMenu() {
         salir.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -208,7 +217,9 @@ public class Conecta4GUI extends JFrame {
             }
         });
     }
-
+    /**
+     * Metodo que  implementa los metodos necesarios que toman lugar cuando sucede un evento por parte de los componentes del tablero.
+     */
     private void prepareActionsBoard() {
         ActionListener justOne = new ActionListener() {
             public void actionPerformed(ActionEvent e) {

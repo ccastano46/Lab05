@@ -6,11 +6,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
-
-import javax.print.attribute.Size2DSyntax;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+
 
 public class CircleLabel extends JLabel {
 

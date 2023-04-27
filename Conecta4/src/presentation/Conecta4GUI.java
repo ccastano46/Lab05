@@ -39,8 +39,12 @@ public class Conecta4GUI extends JFrame {
     private void prepareElements() {
         setTitle("Conecta4");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        
         setSize(screenSize.width / 2, screenSize.height / 2);
         Dimension frameSize = this.getSize();
+        if(((int)( (getSize().height - 140 - (game.board().length*13))/game.board().length)) <= 5){
+            JOptionPane.showMessageDialog(this, "Advertencia: Puede que el tableroa sea demasiado grande para su pantalla");
+        }
         this.setLocation((screenSize.width - frameSize.width) / 2,
                 (screenSize.height - frameSize.height) / 2);
         prepareElementsMenu();
@@ -76,12 +80,15 @@ public class Conecta4GUI extends JFrame {
      * del juego
      */
     private void prepareElementsBoard() {
+        
         board = new JPanel();
         board.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        board.setLayout(new GridLayout(game.board().length, game.board()[0].length, 5, 5));
+        board.setLayout(new GridLayout(game.board().length, game.board()[0].length, 3, 3));
+        
         for (int i = 0; i < game.board().length * game.board()[0].length; i++) {
-            board.add(new CircleLabel(30,Color.WHITE));
+            board.add(new CircleLabel((int)( (getSize().height - 140 - (game.board().length*13))/game.board().length),Color.WHITE));
         }
+       
         board.setBackground(new Color(70,165,162));
         board.setBackground(new Color(70, 165, 162));
         board.setOpaque(true);
@@ -94,7 +101,6 @@ public class Conecta4GUI extends JFrame {
         getContentPane().add(board, BorderLayout.CENTER);
         getContentPane().add(turno, BorderLayout.NORTH);
         prepareBoardButtons(game.board()[0].length);
-       
     }
     /**
      * Metodo que organiza los componentes que sirven como puente para que el Usuario pueda seleccionar la columna donde quiere
@@ -152,11 +158,11 @@ public class Conecta4GUI extends JFrame {
         for (int i = 0; i < game.board().length; i++) { 
             for (int j = 0; j < game.board()[0].length; j++) { 
                 if(game.board()[i][j] == 'a'){
-                    board.add(new CircleLabel(30,player1));
+                    board.add(new CircleLabel((int)( (getSize().height - 140 - (game.board().length*13))/game.board().length),player1));
                 }else if(game.board()[i][j] == 'r'){
-                    board.add(new CircleLabel(30,player2));
+                    board.add(new CircleLabel((int)( (getSize().height - 140 - (game.board().length*13))/game.board().length),player2));
                 }else{
-                    board.add(new CircleLabel(30,Color.WHITE));
+                    board.add(new CircleLabel((int)( (getSize().height - 140 - (game.board().length*13))/game.board().length),Color.WHITE));
                 }
             }
         }
@@ -171,10 +177,12 @@ public class Conecta4GUI extends JFrame {
                 .parseInt(JOptionPane.showInputDialog("Ingerese numero de columnas que debe tener el tablero"));
         try {
             game = new Conecta4(numRows, numColumns);
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
             setGame();
         }
+        
     }
 
     /**
@@ -273,23 +281,28 @@ public class Conecta4GUI extends JFrame {
         shootButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 int selectColumn=0;
+                boolean winner = false;
                 for(JRadioButton b : columns){
                     if(b.isSelected()) break;
                     selectColumn++;
                 }
                 //System.out.println(selectColumn);
-                try {
-                    if(game.play(selectColumn)){
-                        if(game.player()){
-                            JOptionPane.showMessageDialog(Conecta4GUI.this, "Jugador 2 eres el ganador");
-                        }else{
-                            JOptionPane.showMessageDialog(Conecta4GUI.this, "Jugador 1 eres el ganador");
-                        }
-                    } 
-                } catch (Exception error) {
+                try{
+                    winner = game.play(selectColumn);
+                }catch (Exception error) {
                     JOptionPane.showMessageDialog(Conecta4GUI.this,"Jugar: "+ error.getMessage());
                 }
                 refresh();
+                if(game.gameOver()) {
+                    JOptionPane.showMessageDialog(Conecta4GUI.this, "Fin del juego");
+                }else if(winner && game.player()){
+                    turno.setText("");
+                    JOptionPane.showMessageDialog(Conecta4GUI.this, "Jugador 2 eres el ganador");
+                }else if(winner && !game.player()){
+                    turno.setText("");
+                    JOptionPane.showMessageDialog(Conecta4GUI.this, "Jugador 1 eres el ganador");
+                }
+
             }
         });
 

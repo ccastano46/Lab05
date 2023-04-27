@@ -39,7 +39,19 @@ public class Conecta4 {
         }else{
             player=true;
         }
+        
         return someWinner(i, column);
+    }
+
+    public boolean gameOver(){
+        int j= 0;
+        boolean over = false;
+        for(j = 0; j < board[0].length; j++){
+            if(board[0][j] == '\u0000') break;
+        }
+        if(j >= board[0].length) over = true;
+        else over = false;
+        return over;
     }
 
     /**
@@ -52,6 +64,7 @@ public class Conecta4 {
         else if(checkHorizontal('-', row, column)) return true;
         else if(checkDiagonal('-', row, column)) return true;
         else if(checkDiagonal('+', row, column)) return true;
+        else if(gameOver()) return false;
         else return false;
 
     }

@@ -145,11 +145,6 @@ public class Conecta4GUI extends JFrame {
      * Metodo que actualiza la vista del tablero.
      */
     private void refresh() {
-        if(game.player()){
-            turno.setText("Es el turno del Jugador 1");
-        }else{
-            turno.setText("Es el turno del Jugador 2");
-        }
         Component component[] = board.getComponents();
         for(Component c: component){
             c.setVisible(false);
@@ -208,10 +203,10 @@ public class Conecta4GUI extends JFrame {
         salir.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int siNo = JOptionPane.showConfirmDialog(Conecta4GUI.this, "¿Esta seguro de terminar el juego?");
-                if (siNo == 0)
-                    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                else
-                    setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                if (siNo == 0){
+                    dispose();
+                    System.exit(0);
+                }
             }
         });
         abrir.addActionListener(new ActionListener() {
@@ -222,6 +217,11 @@ public class Conecta4GUI extends JFrame {
         salvar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 selectorArchivos.showSaveDialog(Conecta4GUI.this);
+            }
+        });
+        nuevo.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                QNewGame();
             }
         });
     }
@@ -267,7 +267,6 @@ public class Conecta4GUI extends JFrame {
 
         visualButtons[2].addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
                 Color colorChoose = colorPalete.showDialog(Conecta4GUI.this, "Paleta de colores", Color.black);
                 if (!(colorChoose.equals(board.getBackground())) && !(colorChoose.equals(player1))){
                     setPlayer2Color(colorChoose);
@@ -281,28 +280,41 @@ public class Conecta4GUI extends JFrame {
         shootButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 int selectColumn=0;
-                boolean winner = false;
+
                 for(JRadioButton b : columns){
                     if(b.isSelected()) break;
                     selectColumn++;
                 }
-                //System.out.println(selectColumn);
+
                 try{
-                    winner = game.play(selectColumn);
+                    if(game.play(selectColumn)){
+                        if(game.player()){
+                            refresh();
+                            JOptionPane.showMessageDialog(Conecta4GUI.this, "Jugador 2 eres el ganador");
+                            dispose();
+                            QNewGame();
+                        }else{
+                            refresh();
+                            JOptionPane.showMessageDialog(Conecta4GUI.this, "Jugador 1 eres el ganador");
+                            dispose();
+                            QNewGame();
+                        }
+                    }else{
+                        if(game.player()){
+                            turno.setText("Es el turno del Jugador 1");
+                        }else{
+                            turno.setText("Es el turno del Jugador 2");
+                        }
+                    }
                 }catch (Exception error) {
-                    JOptionPane.showMessageDialog(Conecta4GUI.this,"Jugar: "+ error.getMessage());
+                    if(error.getMessage().equals(Conecta4Exception.BOARD_FULL)){
+                        JOptionPane.showMessageDialog(Conecta4GUI.this,error.getMessage());
+                        QNewGame();
+                    }else{
+                        JOptionPane.showMessageDialog(Conecta4GUI.this,error.getMessage());
+                    }
                 }
                 refresh();
-                if(game.gameOver()) {
-                    JOptionPane.showMessageDialog(Conecta4GUI.this, "Fin del juego");
-                }else if(winner && game.player()){
-                    turno.setText("");
-                    JOptionPane.showMessageDialog(Conecta4GUI.this, "Jugador 2 eres el ganador");
-                }else if(winner && !game.player()){
-                    turno.setText("");
-                    JOptionPane.showMessageDialog(Conecta4GUI.this, "Jugador 1 eres el ganador");
-                }
-
             }
         });
 
@@ -314,6 +326,21 @@ public class Conecta4GUI extends JFrame {
 
     private void setPlayer2Color(Color newColor) {
         player2 = newColor;
+    }
+
+    /**Pregunta al usuario si desea iniciar otra partida. */
+    private void QNewGame(){
+        int siNo = JOptionPane.showConfirmDialog(Conecta4GUI.this, "Desea iniciar otra partida?");
+        System.out.println(siNo);
+        if(siNo==0){
+            newGame();
+        }
+    }
+
+    /** Inicializa una nueva partida. */
+    private void newGame(){
+        Conecta4GUI conecta = new Conecta4GUI();
+        conecta.setVisible(true);
     }
 
     /**

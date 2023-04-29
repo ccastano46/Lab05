@@ -1,5 +1,5 @@
-package presentation;
-import domain.*;
+package src.presentation;
+import src.domain.*;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
@@ -328,11 +328,11 @@ public class Conecta4GUI extends JFrame {
     }
     
     private void newGame() {
-    	getContentPane().setVisible(false);
-    	setGame();
-    	prepareElementsBoard();
-    	prepareExtraButtons();
-    	prepareActionsBoard();
+        getContentPane().setVisible(false);
+        setGame();
+        prepareElementsBoard();
+        prepareExtraButtons();
+        prepareActionsBoard();
         System.gc();
     }
 

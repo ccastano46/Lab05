@@ -1,4 +1,4 @@
-package domain;
+package src.domain;
 public class Conecta4 {
     private char[][] board;
     private boolean player;

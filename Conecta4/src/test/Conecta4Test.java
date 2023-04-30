@@ -1,6 +1,6 @@
-package src.test;
+package test;
+import domain.*;
 
-import src.domain.*;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -185,3 +185,5 @@ public class Conecta4Test
         
     }
 }
+
+

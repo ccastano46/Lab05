@@ -168,6 +168,7 @@ public class Conecta4GUI extends JFrame {
     private void setGame(){
         int numRows = Integer
                 .parseInt(JOptionPane.showInputDialog("Ingerese numero de filas que debe tener el tablero"));
+       
         int numColumns = Integer
                 .parseInt(JOptionPane.showInputDialog("Ingerese numero de columnas que debe tener el tablero"));
         try {
@@ -330,6 +331,8 @@ public class Conecta4GUI extends JFrame {
     private void newGame() {
     	getContentPane().setVisible(false);
     	setGame();
+    	player1 = Color.BLUE;
+        player2 = Color.RED;
     	prepareElementsBoard();
     	prepareExtraButtons();
     	prepareActionsBoard();
